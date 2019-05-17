@@ -104,10 +104,19 @@ router.delete("/deletePostById", (req, res) => {
   }
 })
 
-// router.delete("/deletePostsByUser", req.query.id)
+router.get("/getPostsByUser", (req, res) => {
+  console.log(req.query.userId);
+})
+
+router.delete("/deletePostsByUser", (req, res) => {
+  console.log(req.query.userId);
+})
 
 // router.delete("/deleteCommentsByUser", req.query.id)
 // router.get("/getCommentsByUser", req.query.id)
 // router.get("/getCommentsWhereTextIncludes")
 
 module.exports = router;
+
+
+

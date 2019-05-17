@@ -105,9 +105,5 @@ router.delete("/deleteCommentById", (req, res) => {
   }
 })
 
-// router.delete("/deleteCommentsByUser", req.query.id)
-// router.get("/getCommentsByUser", req.query.id)
-// router.get("/getCommentsWhereTextIncludes")
-
 
 module.exports = router;

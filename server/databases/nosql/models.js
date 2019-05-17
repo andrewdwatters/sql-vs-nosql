@@ -31,29 +31,3 @@ const Comments = mongoose.model("Comments", CommentSchema);
 const Reactions = mongoose.model("Reactions", ReactionSchema);
 
 module.exports = { Users, Posts, Comments, Reactions };
-
-// import mongoose from 'mongoose'
-
-// const UserSchema = new mongoose.Schema({
-//   firstName: String,
-//   lastName: String,
-//   email: String,
-//   password: String
-// });
-
-// export default mongoose.model('User', UserSchema);
-
-// import mongoose from "mongoose";
-
-// const LibrarySchema = new mongoose.Schema({
-//   title: String,
-//   author: String,
-//   numPages: Number,
-//   pubDate: Date,
-//   cover: String,
-//   synopsis: String,
-//   userID: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
-//   // 2. Add user collection and create relationship on UID
-// });
-
-// export default mongoose.model("Library", LibrarySchema);

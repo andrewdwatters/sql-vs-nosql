@@ -8,9 +8,12 @@ const sqlController = require("./controllers/sql/index");
 const port = process.env.SERVER_PORT;
 const noSQLdb = require("./databases/nosql");
 const SQLdb = require("./databases/sql");
+// app.set('db', SQLdb);
 
 const app = express();
 app.use(bodyParser.json());
+
+// console.log('db');
 
 app.use("/noSql", noSqlController);
 // app.use("/sql", sqlController);
