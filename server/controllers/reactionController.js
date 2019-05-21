@@ -1,31 +1,33 @@
 const express = require("express");
-const { Users } = require("../../databases/nosql/models");
+const { Reactions } = require("../databases/nosql/models");
 const router = express.Router();
 
-// userController
-router.post("/createUser", (req, res) => {
-  const { username, avitar } = req.body;
-  if (!username || !avitar)
+// reactionController
+router.post("/createReaction", (req, res) => {
+  const { post, author, type } = req.body;
+  if (!post || !author || !type) {
     res.status(500).send({
-      message: "Username and avitar are required",
+      message: "Missing at least one required field",
       data: {}
     });
+  }
   try {
-    Users.create(
+    Reactions.create(
       {
-        username,
-        avitar,
+        userRef: author,
+        postRef: post,
+        type,
         timestamp: new Date().toString()
       },
       (err, doc) => {
         if (err) {
-          console.log("Error creating user: ", err);
+          console.log("Error creating comment: ", err);
           res.status(500).send({
-            message: "Error creating user: " + String(err),
+            message: "Error creating comment" + String(err),
             data: {}
           });
         } else {
-          console.log("Successfully created document: ", doc); // 
+          console.log("Successfully created document: ", doc);
           res.status(200).send({
             message: `Successfully created document with id: ${doc._id}`,
             data: doc
@@ -41,7 +43,7 @@ router.post("/createUser", (req, res) => {
   }
 });
 
-router.get("/getUserById", (req, res) => {
+router.get("/getReactionById", (req, res) => {
   if (!req.query.id)
     res.status(500).send({
       message: "id is required",
@@ -49,11 +51,11 @@ router.get("/getUserById", (req, res) => {
     });
   const { id } = req.query;
   try {
-    Users.findById(id, (err, doc) => {
+    Reactions.findById(id, (err, doc) => {
       if (err) {
-        console.log("Error finding user: ", err);
+        console.log("Error finding reaction: ", err);
         res.status(500).send({
-          message: "Error finding user: " + String(err),
+          message: "Error finding reaction: " + String(err),
           data: {}
         });
       } else {
@@ -72,19 +74,19 @@ router.get("/getUserById", (req, res) => {
   }
 });
 
-router.delete("/deleteUserById", (req, res) => {
+router.delete("/deleteReactionById", (req, res) => {
   if (!req.query.id)
-  res.status(500).send({
-    message: "id is required",
-    data: {}
-  });
+    res.status(500).send({
+      message: "id is required",
+      data: {}
+    });
   const { id } = req.query;
   try {
-    Users.findByIdAndDelete(id, (err, doc) => {
+    Reactions.findByIdAndDelete(id, (err, doc) => {
       if (err) {
-        console.log("Error deleting user: ", err);
+        console.log("Error deleting reaction: ", err);
         res.status(500).send({
-          message: "Error deleting user: " + String(err),
+          message: "Error deleting reaction: " + String(err),
           data: {}
         });
       } else {
@@ -101,6 +103,8 @@ router.delete("/deleteUserById", (req, res) => {
       data: {}
     });
   }
-})
+});
+
+// router.delete("/deleteReactionsByUser", req.query.id)
 
 module.exports = router;

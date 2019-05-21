@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-require("dotenv").config();
+
 mongoose.connect(
   `mongodb+srv://andrewdwatters1:${
     process.env.MONGO_CONNECTION_PASSWORD

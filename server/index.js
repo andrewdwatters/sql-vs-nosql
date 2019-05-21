@@ -2,22 +2,25 @@ const express = require("express");
 const bodyParser = require("body-parser");
 require("dotenv").config();
 
-const noSqlController = require("./controllers/nosql/index");
-const sqlController = require("./controllers/sql/index");
-
-const port = process.env.SERVER_PORT;
-const noSQLdb = require("./databases/nosql");
-const SQLdb = require("./databases/sql");
-// app.set('db', SQLdb);
-
 const app = express();
 app.use(bodyParser.json());
 
-// console.log('db');
+const port = process.env.SERVER_PORT;
+const noSQLDB = require('./databases/nosql/index');
+const SQLDB = require('./databases/sql/index');
 
-app.use("/noSql", noSqlController);
-// app.use("/sql", sqlController);
-// app.use('/both', null)
+const userController = require('.//controllers/userController')
+const postController = require('.//controllers/postController')
+const commentController = require('.//controllers/commentController')
+const reactionController = require('.//controllers/reactionController')
+
+// add router.all("*", logBeforeTimestamp)
+
+app.use("/users", userController);
+app.use("/posts", postController);
+app.use("/comments", commentController);
+app.use("/reactions", reactionController);
+
 
 app.listen(port, () => console.log(`Backend running on port: ${port}`));
 

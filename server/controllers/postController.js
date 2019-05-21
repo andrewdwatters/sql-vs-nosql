@@ -1,29 +1,28 @@
 const express = require("express");
-const { Comments } = require("../../databases/nosql/models");
+const { Posts } = require("../databases/nosql/models");
 const router = express.Router();
 
-// commentController
-router.post("/createComment", (req, res) => {
-  const { post, author, content } = req.body;
-  if (!post || !author || !content) {
+// postController
+router.post("/createPost", (req, res) => {
+  const { author, content } = req.body;
+  if (!author || !content) {
     res.status(500).send({
       message: "Missing at least one required field",
       data: {}
     });
   }
   try {
-    Comments.create(
+    Posts.create(
       {
         userRef: author,
-        postRef: post,
         content,
         timestamp: new Date().toString()
       },
       (err, doc) => {
         if (err) {
-          console.log("Error creating comment: ", err);
+          console.log("Error creating post: ", err);
           res.status(500).send({
-            message: "Error creating comment: " + String(err),
+            message: "Error creating post: " + String(err),
             data: {}
           });
         } else {
@@ -43,7 +42,7 @@ router.post("/createComment", (req, res) => {
   }
 });
 
-router.get("/getCommentById", (req, res) => {
+router.get("/getPostById", (req, res) => {
   if (!req.query.id)
     res.status(500).send({
       message: "id is required",
@@ -51,11 +50,11 @@ router.get("/getCommentById", (req, res) => {
     });
   const { id } = req.query;
   try {
-    Comments.findById(id, (err, doc) => {
+    Posts.findById(id, (err, doc) => {
       if (err) {
-        console.log("Error finding comment: ", err);
+        console.log("Error finding post: ", err);
         res.status(500).send({
-          message: "Error finding comment: " + String(err),
+          message: "Error finding post: " + String(err),
           data: {}
         });
       } else {
@@ -74,7 +73,7 @@ router.get("/getCommentById", (req, res) => {
   }
 });
 
-router.delete("/deleteCommentById", (req, res) => {
+router.delete("/deletePostById", (req, res) => {
   if (!req.query.id)
   res.status(500).send({
     message: "id is required",
@@ -82,11 +81,11 @@ router.delete("/deleteCommentById", (req, res) => {
   });
   const { id } = req.query;
   try {
-    Comments.findByIdAndDelete(id, (err, doc) => {
+    Posts.findByIdAndDelete(id, (err, doc) => {
       if (err) {
-        console.log("Error deleting comment: ", err);
+        console.log("Error deleting post: ", err);
         res.status(500).send({
-          message: "Error deleting comment: " + String(err),
+          message: "Error deleting post: " + String(err),
           data: {}
         });
       } else {
@@ -105,5 +104,16 @@ router.delete("/deleteCommentById", (req, res) => {
   }
 })
 
+router.get("/getPostsByUser", (req, res) => {
+  console.log(req.query.userId);
+})
+
+router.delete("/deletePostsByUser", (req, res) => {
+  console.log(req.query.userId);
+})
+
 
 module.exports = router;
+
+
+

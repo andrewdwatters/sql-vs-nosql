@@ -1,0 +1,210 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Back-end service for retrieving Users, Posts, Comments and Reactions from either a SQL or NoSQL database, depending on the client's input.",
+    "version": "1.0.0",
+    "title": "SQL vs NoSQL"
+  },
+  "host": "www.TODO.com",
+  "basePath": "/v2",
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "tags": [
+    {
+      "name": "users"
+    },
+    {
+      "name": "posts"
+    },
+    {
+      "name": "comments"
+    },
+    {
+      "name": "reactions"
+    }
+  ],
+  "paths": {
+    "/users/getUserById": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a user by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of user to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "404": {
+            "description": "Invalid id supplied"
+          },
+          "500": {
+            "description": "Missing id / Missing database query"
+          }
+        }
+      }
+    }
+  },
+  "/users/deleteUserById": {
+    "delete": {
+      "tags": [
+        "users"
+      ],
+      "summary": "Delete a user by id",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "name": "id",
+          "in": "query",
+          "description": "ID of user to delete",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "database",
+          "in": "query",
+          "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "successful operation",
+          "schema": {
+            "$ref": "#/definitions/Users"
+          }
+        },
+        "404": {
+          "description": "Invalid id supplied"
+        },
+        "500": {
+          "description": "Missing id / Missing database query"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Users": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228071",
+        },
+        "username": {
+          "type": "string",
+          "example": "johnDoe123"
+        },
+        "avitar": {
+          "type": "string",
+          "example": "https://www.fillmurray.com/200x300"
+        },
+        "__v": {
+          "type": "integer",
+          "format": "int64"
+        }
+      }
+    },
+    "Posts": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228071"
+        },
+        "userRef": {
+          "type": "string",
+          "example": "5cdc8dee605d455b9f228072"
+        },
+        "content": {
+          "type": "string",
+          "example": "Hello world! This is a post!"
+        },
+        "timeStamp": {
+          "type": "string",
+          "example": "Wed May 15 2019 16:10:47 GMT-0600 (Mountain Daylight Time)"
+        }
+      }
+    },
+    "Comments": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228071"
+        },
+        "userRef": {
+          "type": "string",
+          "example": "5cdc8dee605d455b9f228072"
+        },
+        "postRef": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228073"
+        },
+        "content": {
+          "type": "string",
+          "example": "Hello world! This is a post!"
+        },
+        "timeStamp": {
+          "type": "string",
+          "example": "Wed May 15 2019 16:10:47 GMT-0600 (Mountain Daylight Time)"
+        }
+      }
+    },
+    "Reactions": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228071"
+        },
+        "userRef": {
+          "type": "string",
+          "example": "5cdc8dee605d455b9f228072"
+        },
+        "postRef": {
+          "type": "string",
+          "example": "5cdc8da9605d455b9f228073"
+        },
+        "type": {
+          "type": "string",
+          "example": "Hello world! This is a post!"
+        },
+        "timeStamp": {
+          "type": "string",
+          "example": "Wed May 15 2019 16:10:47 GMT-0600 (Mountain Daylight Time)"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}
