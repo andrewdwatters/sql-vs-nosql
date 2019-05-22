@@ -14,7 +14,6 @@ module.exports = {
     return Users.create({ username, avitar, timestamp: new Date().toString() });
   },
   "/deleteUserById": id => {
-    // try find first, send 404 if id doesn't exist
     return Users.findByIdAndDelete(id);
   },
   "/editUser": (id, updates) => {

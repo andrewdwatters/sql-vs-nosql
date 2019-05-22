@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "description": "Back-end service for retrieving Users, Posts, Comments and Reactions from either a SQL or NoSQL database, depending on the client's input.",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "title": "SQL vs NoSQL"
   },
   "host": "www.TODO.com",
@@ -13,23 +13,23 @@
   ],
   "tags": [
     {
-      "name": "users"
+      "name": "Users"
     },
     {
-      "name": "posts"
+      "name": "Posts"
     },
     {
-      "name": "comments"
+      "name": "Comments"
     },
     {
-      "name": "reactions"
+      "name": "Reactions"
     }
   ],
   "paths": {
     "/users/getUserById": {
       "get": {
         "tags": [
-          "users"
+          "Users"
         ],
         "summary": "Get a user by id",
         "produces": [
@@ -62,49 +62,164 @@
             "description": "Invalid id supplied"
           },
           "500": {
-            "description": "Missing id / Missing database query"
+            "description": "Missing required field / malformed request"
           }
         }
       }
-    }
-  },
-  "/users/deleteUserById": {
-    "delete": {
-      "tags": [
-        "users"
-      ],
-      "summary": "Delete a user by id",
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "name": "id",
-          "in": "query",
-          "description": "ID of user to delete",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "name": "database",
-          "in": "query",
-          "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "successful operation",
-          "schema": {
-            "$ref": "#/definitions/Users"
+    },
+    "/users/createUser": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "updates",
+            "in": "body",
+            "description": "user to be created",
+            "schema": {
+              "type": "object",
+              "required": [
+                "username",
+                "avitar"
+              ],
+              "properties": {
+                "username": {
+                  "description": "Desired username/display name",
+                  "type": "string"
+                },
+                "avitar": {
+                  "description": "Desired avitar url",
+                  "type": "string"
+                }
+              }
+            }
           }
-        },
-        "404": {
-          "description": "Invalid id supplied"
-        },
-        "500": {
-          "description": "Missing id / Missing database query"
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/users/editUser": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Updates a user's information",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of user to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "updates",
+            "in": "body",
+            "description": "user to be updated",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "description": "Desired username/display name",
+                  "type": "string"
+                },
+                "avitar": {
+                  "description": "Desired avitar url",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/users/deleteUserById": {
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Delete a user by id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of user to delete",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          },
+          "404": {
+            "description": "Invalid id supplied"
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
         }
       }
     }
@@ -115,7 +230,7 @@
       "properties": {
         "_id": {
           "type": "string",
-          "example": "5cdc8da9605d455b9f228071",
+          "example": "5cdc8da9605d455b9f228071"
         },
         "username": {
           "type": "string",

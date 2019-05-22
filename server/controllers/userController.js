@@ -21,16 +21,16 @@ router.get("/getUserById", (req, res) => {
     database = database.toLowerCase();
 
     queries[database][path](id).then(doc => {
-      if(doc) {
+      if (doc) {
         res.status(200).send({
           message: "Success",
           data: doc
         });
       } else {
         res.status(404).send({
-          message: "No user found", 
+          message: "No user found",
           data: {}
-        })
+        });
       }
     });
   } catch (err) {
@@ -74,7 +74,6 @@ router.delete("/deleteUserById", (req, res) => {
     database = database.toLowerCase();
 
     queries[database][path](id).then(doc => {
-      console.log(doc)
       res.status(200).send({
         message: "Success",
         data: doc
