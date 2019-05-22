@@ -222,6 +222,247 @@
           }
         }
       }
+    },
+    "/posts/getPostById": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Gets a post with the given id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "ID of post",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "404": {
+            "description": "No post found with supplied id"
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/posts/getPostsByUser": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Gets all posts by the supplied user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userID",
+            "in": "query",
+            "description": "id of user to retrieve posts for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "404": {
+            "description": "No posts found for the supplied userID"
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/posts/getPostsWithText": {
+      "get": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Gets all posts containing the supplied text (case-insensitive)",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "description": "Text input used to filter results",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "404": {
+            "description": "No posts found containing the supplied text"
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/posts/createPost": {
+      "post": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Creates a new post related to the supplied userID (author)",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "post",
+            "in": "body",
+            "description": "Post to be created",
+            "schema": {
+              "type": "object",
+              "required": [
+                "author",
+                "content"
+              ],
+              "properties": {
+                "content": {
+                  "description": "Content of the post to be created",
+                  "type": "string"
+                },
+                "author": {
+                  "description": "id of the user creating the post",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
+    },
+    "/posts/editPost": {
+      "put": {
+        "tags": [
+          "Posts"
+        ],
+        "summary": "Edits an existing post",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "id of post to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "database",
+            "in": "query",
+            "description": "Source from which to retrieve/update data (\"sql\" or \"nosql\")",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "updates",
+            "in": "body",
+            "description": "Post to be updated",
+            "schema": {
+              "type": "object",
+              "required": [
+                "content"
+              ],
+              "properties": {
+                "content": {
+                  "description": "Content of the post to be created",
+                  "type": "string"
+                },
+                "author": {
+                  "description": "id of the user creating the post",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Posts"
+            }
+          },
+          "500": {
+            "description": "Missing required field / malformed request"
+          }
+        }
+      }
     }
   },
   "definitions": {
