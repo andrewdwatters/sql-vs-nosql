@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 function missingRequiredField() {
   return {
     message: "Error: Missing one or more required fields",
@@ -20,8 +22,17 @@ function genericError(err) {
   };
 }
 
+function getQuery(query) {
+  const root = process.cwd();
+  const sqlQueriesPath = root + "/server/queries/sql/";
+  const pathToQuery = sqlQueriesPath + query.toLowerCase() + ".sql"
+  const queryAtPath = fs.readFileSync(pathToQuery, "utf8");
+  return queryAtPath;
+}
+
 module.exports = {
   missingRequiredField,
   missingDBSource,
-  genericError
-}
+  genericError,
+  getQuery
+};

@@ -1,10 +1,11 @@
 const express = require("express");
+
 const router = express.Router();
 const {
   missingRequiredField,
   missingDBSource,
   genericError
-} = require("../util/handleErrors");
+} = require("../util/index.js");
 
 const queries = require("../queries/index.js");
 
@@ -19,7 +20,7 @@ router.get("/getUserById", (req, res) => {
       req._parsedUrl.pathname.slice(0, req._parsedUrl.pathname.length - 1);
 
     database = database.toLowerCase();
-
+    
     queries[database][path](id).then(doc => {
       if (doc) {
         res.status(200).send({

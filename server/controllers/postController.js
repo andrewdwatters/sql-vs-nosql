@@ -43,40 +43,40 @@ router.post("/createPost", (req, res) => {
 });
 
 router.get("/getPostById", (req, res) => {
-//   if (!req.query.id)
-//     res.status(500).send({
-//       message: "id is required",
-//       data: {}
-//     });
-//   const { id } = req.query;
-//   try {
-//     Posts.findById(id, (err, doc) => {
-//       if (err) {
-//         res.status(404).send({
-//           message: "Error: " + String(err),
-//           data: {}
-//         });
-//       } else {
-//         res.status(200).send({
-//           message: `Successfully found document with id: ${doc._id}`,
-//           data: doc
-//         });
-//       }
-//     });
-//   } catch (err) {
-//     res.status(500).send({
-//       message: "Unknown error: " + String(err),
-//       data: {}
-//     });
-//   }
-// });
+  //   if (!req.query.id)
+  //     res.status(500).send({
+  //       message: "id is required",
+  //       data: {}
+  //     });
+  //   const { id } = req.query;
+  //   try {
+  //     Posts.findById(id, (err, doc) => {
+  //       if (err) {
+  //         res.status(404).send({
+  //           message: "Error: " + String(err),
+  //           data: {}
+  //         });
+  //       } else {
+  //         res.status(200).send({
+  //           message: `Successfully found document with id: ${doc._id}`,
+  //           data: doc
+  //         });
+  //       }
+  //     });
+  //   } catch (err) {
+  //     res.status(500).send({
+  //       message: "Unknown error: " + String(err),
+  //       data: {}
+  //     });
+  //   }
+});
 
 router.delete("/deletePostById", (req, res) => {
   if (!req.query.id)
-  res.status(500).send({
-    message: "id is required",
-    data: {}
-  });
+    res.status(500).send({
+      message: "id is required",
+      data: {}
+    });
   const { id } = req.query;
   try {
     Posts.findByIdAndDelete(id, (err, doc) => {
@@ -100,18 +100,14 @@ router.delete("/deletePostById", (req, res) => {
       data: {}
     });
   }
-})
+});
 
 router.get("/getPostsByUser", (req, res) => {
   console.log(req.query.userId);
-})
+});
 
 router.delete("/deletePostsByUser", (req, res) => {
   console.log(req.query.userId);
-})
-
+});
 
 module.exports = router;
-
-
-

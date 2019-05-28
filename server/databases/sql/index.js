@@ -10,3 +10,9 @@ connection.connect(function(err) {
   if (err) throw err;
   else console.log("mySQL database connected!");
 });
+
+// connection.query('use DB', (err, results, fields) => {
+
+// })
+
+module.exports = connection;
