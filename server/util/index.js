@@ -1,4 +1,5 @@
 const fs = require("fs");
+const ObjectID = require("mongodb").ObjectID;
 
 function missingRequiredField() {
   return {
@@ -22,17 +23,30 @@ function genericError(err) {
   };
 }
 
-function getQuery(query) {
+function formatQuery(query, ...args) {
   const root = process.cwd();
-  const sqlQueriesPath = root + "/server/queries/sql/";
-  const pathToQuery = sqlQueriesPath + query.toLowerCase() + ".sql"
+  const pathToQueriesRoot = root + "/server/queries/sql/";
+  const pathToQuery = pathToQueriesRoot + query.toLowerCase() + ".sql";
   const queryAtPath = fs.readFileSync(pathToQuery, "utf8");
-  return queryAtPath;
+  const queryWords = queryAtPath.split(" ");
+  for (let i = 0; i < queryWords.length; i++) {
+
+    // replaces spaces, tabs, newlines with empty spaces
+    queryWords[i] = queryWords[i].replace(/[\r|\n\ \  ]+/, "");
+    
+    // replaces $1, $2... vars with arguments given
+    queryWords[i] = queryWords[i].replace(/^\$[0-9]+/, [...args].shift());
+    
+    // replaces _id with MongoDB ObjectID to map SQL id's to Mongo ObjectID's
+    // queryWords[i] = queryWords[i].replace(/^_id PRIMARY KEY,$/, `_id PRIMARY KEY ${ObjectID()}`);
+  }
+
+  return queryWords.join(' ');
 }
 
 module.exports = {
   missingRequiredField,
   missingDBSource,
   genericError,
-  getQuery
+  formatQuery
 };
